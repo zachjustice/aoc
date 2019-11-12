@@ -9,10 +9,10 @@
   (vec (for [index (range (/ (count arr) sublist-size))
              :let [start (* index sublist-size)
                    end (+ (* index sublist-size) sublist-size)]]
-         (do {:before (get arr start)
+         (do {:initial-registers (get arr start)
               :op     (get-in arr [(+ start 1) 0])
               :args   (subvec (get arr (+ start 1)) 1 4)
-              :after  (get arr (+ start 2))}))))
+              :expected-registers  (get arr (+ start 2))}))))
 
 (defn parse-line
   [line]
@@ -99,41 +99,51 @@
 (defn gtir
   "(greater-than immediate/register) sets register C to 1 if value A is greater than register B. Otherwise, register C is set to 0. "
   [a b c regs]
-  (apply op [> a (get regs b) c regs]))
+  (apply set-op [> a (get regs b) c regs]))
 
 (defn gtri
   "(greater-than register/immediate) sets register C to 1 if register A is greater than value B. Otherwise, register C is set to 0."
   [a b c regs]
-  (apply opi [> (get regs a) b c regs]))
+  (apply set-op [> (get regs a) b c regs]))
 
 (defn gtrr
   "(greater-than register/register) sets register C to 1 if register A is greater than register B. Otherwise, register C is set to 0."
   [a b c regs]
-  (apply opi [> (get regs a) (get regs b) c regs]))
+  (apply set-op [> (get regs a) (get regs b) c regs]))
 
 (defn eqir
   "(equal-than immediate/register) sets register C to 1 if value A is equal than register B. Otherwise, register C is set to 0. "
   [a b c regs]
-  (apply op [= a (get regs b) c regs]))
+  (apply set-op [= a (get regs b) c regs]))
 
 (defn eqri
   "(equal-than register/immediate) sets register C to 1 if register A is equal than value B. Otherwise, register C is set to 0."
   [a b c regs]
-  (apply opi [= (get regs a) b c regs]))
+  (apply set-op [= (get regs a) b c regs]))
 
 (defn eqrr
   "(equal-than register/register) sets register C to 1 if register A is equal than register B. Otherwise, register C is set to 0."
   [a b c regs]
-  (apply opi [= (get regs a) (get regs b) c regs]))
+  (apply set-op [= (get regs a) (get regs b) c regs]))
 
+(defn apply-op-code
+  [sample op]
+  (println "sample:" sample)
+  (let [args (:args sample)
+        initial-registers (:initial-registers sample)
+        expected-registers (:expected-registers sample)]
+    (def actual-registers (apply op (conj args initial-registers)))
+    (if (= actual-registers expected-registers) 1 0)))
+
+(defn apply-op-codes
+  "apply each opcode to the sample and determine if the expected register state matches the actual register state"
+  [sample ops]
+  (reduce + (map #(apply-op-code sample %1) ops)))
+
+(def ops [addi addr multi multr bani banr borr bori seti setr gtir gtri gtrr eqir eqri eqrr ])
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (def samples (parse (slurp filename)))
-  (def sample (get samples 0))
-  (println "sample:" sample)
-  (let [args (:args sample)
-        before (:before sample)
-        op (:op sample)]
-    (def result (apply addr (conj args before)))
-    (println "answer" result)))
+  (let [samples (parse (slurp filename))]
+    (map #(apply-op-codes %1 ops) samples)))
+

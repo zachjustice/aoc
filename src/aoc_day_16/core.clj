@@ -6,13 +6,13 @@
   "take a single sample from the input and convert to a usable map"
   [arr]
   (def sublist-size 3)
-  (vec (for [index (range (/ (count arr) sublist-size))
-             :let [start (* index sublist-size)
-                   end (+ (* index sublist-size) sublist-size)]]
-         (do {:initial-registers (get arr start)
-              :op     (get-in arr [(+ start 1) 0])
-              :args   (subvec (get arr (+ start 1)) 1 4)
-              :expected-registers  (get arr (+ start 2))}))))
+  (for [index (range (/ (count arr) sublist-size))
+        :let [start (* index sublist-size)
+              end (+ (* index sublist-size) sublist-size)]]
+    (do {:initial-registers  (get arr start)
+         :op                 (get-in arr [(+ start 1) 0])
+         :args               (subvec (get arr (+ start 1)) 1 4)
+         :expected-registers (get arr (+ start 2))})))
 
 (defn parse-line
   [line]
@@ -27,15 +27,21 @@
   (def lines (vec (map parse-line (filter #(not (clojure.string/blank? %1)) (clojure.string/split string #"\n")))))
   (mapify lines))
 
+(defn get-safe
+  [coll index]
+  (if (< index (count coll))
+    (get coll index)
+    (throw (Exception. "Invalid get"))))
+
 (defn opr
   [op a b c regs]
-  (let [register-a (get regs a)
-        register-b (get regs b)]
+  (let [register-a (get-safe regs a)
+        register-b (get-safe regs b)]
     (assoc regs c (op register-a register-b))))
 
 (defn opi
   [op a b c regs]
-  (let [register-a (get regs a)]
+  (let [register-a (get-safe regs a)]
     (assoc regs c (op register-a b))))
 
 (defn set-op
@@ -48,11 +54,11 @@
   (apply opr [+ a b c regs]))
 
 (defn addi
-  "(add register) stores into register C the result of adding register A and register B."
+  "(add immediate) stores into register C the result of adding register A and value B."
   [a b c regs]
   (apply opi [+ a b c regs]))
 
-;; arr of each op
+
 (defn multr
   "(add register) stores into register C the result of adding register A and register B."
   [a b c regs]
@@ -63,7 +69,7 @@
   [a b c regs]
   (apply opi [* a b c regs]))
 
-;; arr of each op
+
 (defn banr
   "(add register) stores into register C the result of adding register A and register B."
   [a b c regs]
@@ -74,7 +80,7 @@
   [a b c regs]
   (apply opi [bit-and a b c regs]))
 
-;; arr of each op
+
 (defn borr
   "(add register) stores into register C the result of adding register A and register B."
   [a b c regs]
@@ -85,16 +91,15 @@
   [a b c regs]
   (apply opi [bit-or a b c regs]))
 
-;; arr of each op
 (defn setr
-  "(add register) stores into register C the result of adding register A and register B."
+  "(set register) copies the contents of register A into register C. (Input B is ignored.)"
   [a b c regs]
   (assoc regs c (get regs a)))
 
 (defn seti
-  "(add register) stores into register C the result of adding register A and register B."
+  "(set immediate) stores value A into register C. (Input B is ignored.)"
   [a b c regs]
-  (assoc regs c regs a))
+  (assoc regs c a))
 
 (defn gtir
   "(greater-than immediate/register) sets register C to 1 if value A is greater than register B. Otherwise, register C is set to 0. "
@@ -122,7 +127,7 @@
   (apply set-op [= (get regs a) b c regs]))
 
 (defn eqrr
-  "(equal-than register/register) sets register C to 1 if register A is equal than register B. Otherwise, register C is set to 0."
+  "(equal register/register) sets register C to 1 if register A is equal to register B. Otherwise, register C is set to 0."
   [a b c regs]
   (apply set-op [= (get regs a) (get regs b) c regs]))
 
@@ -132,18 +137,33 @@
   (let [args (:args sample)
         initial-registers (:initial-registers sample)
         expected-registers (:expected-registers sample)]
-    (def actual-registers (apply op (conj args initial-registers)))
-    (if (= actual-registers expected-registers) 1 0)))
+    (println op)
+    (try
+      (do
+        (def actual-registers (apply op (conj args initial-registers)))
+        (println actual-registers)
+        (println expected-registers)
+        (if (= actual-registers expected-registers) 1 0))
+      (catch Exception e
+        (do 0))
+      )))
 
 (defn apply-op-codes
   "apply each opcode to the sample and determine if the expected register state matches the actual register state"
   [sample ops]
   (reduce + (map #(apply-op-code sample %1) ops)))
 
-(def ops [addi addr multi multr bani banr borr bori seti setr gtir gtri gtrr eqir eqri eqrr ])
+(defn tally-counts
+  [counts]
+  (->> counts
+       (map #(if (>= %1 3) 1 0))
+       (reduce +)))
+
+(def ops [addi addr multi multr bani banr borr bori seti setr gtir gtri gtrr eqir eqri eqrr])
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (let [samples (parse (slurp filename))]
-    (map #(apply-op-codes %1 ops) samples)))
+  (->> (parse (slurp filename))
+       (map #(apply-op-codes %1 ops))
+       (tally-counts)))
 

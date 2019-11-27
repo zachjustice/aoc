@@ -167,37 +167,104 @@
        (map #(apply-op-codes %1 ops))
        (tally-counts)))
 
+;;;;;;;;;;;;;;;;
+
+(defn apply-op
+  [op args regs]
+  (apply op (conj args regs)))
+
+(defn is-valid-op-code
+  [sample op]
+  (let [args (:args sample)
+        initial-registers (:initial-registers sample)
+        expected-registers (:expected-registers sample)]
+    (= (apply-op op args initial-registers) expected-registers)))
+
+(defn find-valid-ops
+  [sample ops]
+  (filter #(is-valid-op-code sample %1) ops))
+
+;; find valid op for each sample
+;; map opcode -> op function
+(defn assoc-opcode
+  "take sample and ops list, return hash-map relating opcode num to applicable func's {1 (addi, addr, etc)}"
+  [sample ops]
+  (let [found-ops (find-valid-ops sample ops)
+        opcode-num (sample :op)]
+    (hash-map :opcode-num opcode-num :ops found-ops)))
+
+(defn deduce
+  "uses observations to update command-map. return updated command-map"
+  [observations command-map]
+  (reduce (fn [command-map observation]
+            (let [{opcode-num :opcode-num ops :ops} observation]
+              (if (= 1 (count ops))
+                (do
+                  (println "deduced:" (first ops) opcode-num)
+                  (assoc command-map opcode-num (first ops) (first ops) opcode-num))
+                command-map)))
+          command-map
+          observations))
+
+(defn clean-up
+  "uses updated command-map to clean up observations. return cleaned-up observations"
+  [observations command-map]
+  (as-> observations input
+        (map (fn [observation]
+               (let [non-deduced-ops (filter (fn [op] (not (command-map op))) (observation :ops))]
+                 (println "removed:" (filter #(command-map %1) (observation :ops)))
+                 (assoc observation :ops non-deduced-ops)))
+             input)
+        (filter #(< 0 (count (%1 :ops))) input)))
+
+(defn deduce-ops
+  [observations command-map]
+  (if (= (count command-map) 32)
+    command-map
+    (let [new-cm (deduce observations command-map)]
+      (println "---")
+      (deduce-ops (clean-up observations new-cm) new-cm))))
+
+(defn create-command-map
+  [part1-filename ops]
+  (as-> (parse (slurp part1-filename)) input
+        (map #(assoc-opcode %1 ops) input)
+        (deduce-ops input {})))
+
+;;;;;;;;;;;;;;;;
+
 (defn construct-command
   [command-map input]
   (let [op (get input 0)
         args (subvec input 1 4)]
-   (hash-map
-    :op (command-map op)
-    :args args)))
+    (hash-map
+      :op (command-map op)
+      :args args)))
 
 (defn run-program
   [commands]
-  (reduce (fn [registers, sample]
-            (let [{op :op args :args} sample]
-              (apply op (conj args registers))))
+  (println commands)
+  (reduce (fn [registers, command]
+            (let [{op :op args :args} command]
+              (apply-op op args registers)))
           [0 0 0 0]
           commands))
 
 (defn part2
-  [part2-filename ops]
+  [part2-filename command-map]
   (->> part2-filename
        (slurp)
        (listify-string)                                     ;; produce the ([op ...args] [] [])
        (map #(construct-command command-map %1))            ;; produce program ({:op :args} {})
        (run-program)                                        ;; takes the commands and produces the final registers
-       (first)                                              ;; we only care about first register
-       ))
+       (first)))
+
+;;;;;;;;;;;;;;;;
 
 (def ops [addi addr multi multr bani banr borr bori seti setr gtir gtri gtrr eqir eqri eqrr])
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
   (println "part 1 answer: " (part1 part1-filename ops))
-  ;; (println "part 2 answer: " (part2 part2-filename ops))
+  (println "part 2 answer: " (part2 part2-filename (create-command-map part1-filename ops)))
   )
-

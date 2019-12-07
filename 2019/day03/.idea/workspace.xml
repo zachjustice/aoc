@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bcea7112-3b9a-42d7-8616-6303b1779531" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1UVEoiCliMnvdsAlD6rF8Rbz59s" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Rainbow Brackets" />
+  </component>
+  <component name="ReplState" timestamp="1575505282588">{:repl-history {:ide [], :local [{:command &quot;\n(zipmap [0 0] [2 0])&quot;, :offset 21, :ns &quot;day03.core&quot;} {:command &quot;\n(zipmap [1 0] [2 0])&quot;, :offset 21, :ns &quot;day03.core&quot;} {:command &quot;\n(map vector [1 0] [2 0])&quot;, :offset 25, :ns &quot;day03.core&quot;} {:command &quot;(defn manh-dist [u v]\n  (reduce +\n          (map (fn [[a b]] (Math/abs (- a b)))\n               (map vector u v))))&quot;, :offset 115, :ns &quot;day03.core&quot;} {:command &quot;(manh-dist [0 0] [2 0])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(manh-dist [2 0] [2 0])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(manh-dist [0 0] [1 1])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(manh-dist [0 0] [1 0])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(manh-dist [0 0] [0 2])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(manh-dist [0 0] [2 2])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(min [1 4 3])&quot;, :offset 13, :ns &quot;day03.core&quot;} {:command &quot;(min '(4 3 2))&quot;, :offset 14, :ns &quot;day03.core&quot;} {:command &quot;(min-key '(3 4 5))&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(apply min '(3 5 4 2))&quot;, :offset 22, :ns &quot;day03.core&quot;} {:command &quot;(part1 filename)&quot;, :offset 16, :ns &quot;day03.core&quot;} {:command &quot;(def h {1 2 2 3 3})&quot;, :offset 19, :ns &quot;day03.core&quot;} {:command &quot;(def h {1 2 2 3 3 3})&quot;, :offset 21, :ns &quot;day03.core&quot;} {:command &quot;h&quot;, :offset 1, :ns &quot;day03.core&quot;} {:command &quot;(loop [first second &amp; rest]\n  (println first second)\n  (recur rest))&quot;, :offset 68, :ns &quot;day03.core&quot;} {:command &quot;(loop [first second &amp; rest]\n  (do (println first second)\n      (recur rest)))&quot;, :offset 77, :ns &quot;day03.core&quot;} {:command &quot;(loop [[first second &amp; rest] l]\n  (do (println first second)\n      (recur rest)))&quot;, :offset 81, :ns &quot;day03.core&quot;} {:command &quot;(def l '(1 2 3))&quot;, :offset 16, :ns &quot;day03.core&quot;} {:command &quot;(loop [[first second &amp; rest] l]\n  (do (println first second)\n      (if first (recur rest))))&quot;, :offset 92, :ns &quot;day03.core&quot;} {:command &quot;(loop [[first &amp; rest] l]\n  (do (println first (first rest))\n      (if first (recur rest))))&quot;, :offset 91, :ns &quot;day03.core&quot;} {:command &quot;(loop [[head &amp; rest] l]\n  (do (println head (first rest))\n      (if head (recur rest))))&quot;, :offset 88, :ns &quot;day03.core&quot;} {:command &quot;(loop [[head &amp; rest] l]\n  (do (println head (first rest))\n      (if rest (recur rest))))&quot;, :offset 88, :ns &quot;day03.core&quot;} {:command &quot;(loop [[head &amp; rest] l hmap {}]\n  (if rest (recur rest (assoc hmap head (first rest)))))&quot;, :offset 88, :ns &quot;day03.core&quot;} {:command &quot;l&quot;, :offset 1, :ns &quot;day03.core&quot;} {:command &quot;(def l '(1 2 3 4))&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(loop [[head &amp; rest] l \n       hmap {}]\n  (if rest \n    (recur rest \n           (assoc hmap head (first rest)))\n    hmap))&quot;, :offset 122, :ns &quot;day03.core&quot;} {:command &quot;(def l1 '(1 2 3 4))&quot;, :offset 19, :ns &quot;day03.core&quot;} {:command &quot;(def l2 '(1 99))&quot;, :offset 16, :ns &quot;day03.core&quot;} {:command &quot;l2&quot;, :offset 2, :ns &quot;day03.core&quot;} {:command &quot;(merge {:a 1 :b 2} {:a 3 :b 4})&quot;, :offset 31, :ns &quot;day03.core&quot;} {:command &quot;(merge {:a '(1) :b '(2)} {:a '(3) :b '(4)})&quot;, :offset 43, :ns &quot;day03.core&quot;} {:command &quot;(merge-with into {:a '(1) :b '(2)} {:a '(3) :b '(4)})&quot;, :offset 53, :ns &quot;day03.core&quot;} {:command &quot;(merge-with into {:a 1 :b 2} {:a 3 :b 4})&quot;, :offset 41, :ns &quot;day03.core&quot;} {:command &quot;(merge-with into (list-to-path l1) (list-to-path l2))&quot;, :offset 53, :ns &quot;day03.core&quot;} {:command &quot;(merge-with into (input-to-pos (list-to-path l1)) (input-to-pos (list-to-path l2)))&quot;, :offset 83, :ns &quot;day03.core&quot;} {:command &quot;(list-to-path (input-to-pos l1))&quot;, :offset 32, :ns &quot;day03.core&quot;} {:command &quot;(merge-with into (list-to-path (input-to-pos l1)) (list-to-path (input-to-pos l2)))&quot;, :offset 83, :ns &quot;day03.core&quot;} {:command &quot;(hmap [0, 0])&quot;, :offset 13, :ns &quot;day03.core&quot;} {:command &quot;(list [[0,0] (hmap [0, 0] '())])&quot;, :offset 32, :ns &quot;day03.core&quot;} {:command &quot;(list [[0,0] (hmap [0, 0] (list))])&quot;, :offset 35, :ns &quot;day03.core&quot;} {:command &quot;(take 3 (list [[0,0] (hmap [0, 0] (list))]))&quot;, :offset 44, :ns &quot;day03.core&quot;} {:command &quot;(get 2 (take 0 (list [[0,0] (hmap [0, 0] (list))])))&quot;, :offset 52, :ns &quot;day03.core&quot;} {:command &quot;(get 1 (take 0 (list [[0,0] (hmap [0, 0] (list))])))&quot;, :offset 52, :ns &quot;day03.core&quot;} {:command &quot;(get (take 0 (list [[0,0] (hmap [0, 0] (list))])) 0)&quot;, :offset 52, :ns &quot;day03.core&quot;} {:command &quot;(concat '() 1)&quot;, :offset 14, :ns &quot;day03.core&quot;} {:command &quot;(concat [] [ 1 2])&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(conj [] 1)&quot;, :offset 11, :ns &quot;day03.core&quot;} {:command &quot;(conj '() 1)&quot;, :offset 12, :ns &quot;day03.core&quot;} {:command &quot;(bfs hmap [0,0] [2 3])&quot;, :offset 22, :ns &quot;day03.core&quot;} {:command &quot;(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr] &quot;, :offset 87, :ns &quot;day03.core&quot;} {:command &quot;(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr]&quot;, :offset 86, :ns &quot;day03.core&quot;} {:command &quot;(def wire1-str \&quot;R8,U5,L5,D3\&quot;)&quot;, :offset 29, :ns &quot;day03.core&quot;} {:command &quot;(def wire2-str \&quot;U7,R6,D4,L4\&quot;)&quot;, :offset 29, :ns &quot;day03.core&quot;} {:command &quot;(def l1 (parse-line wire1-str))&quot;, :offset 31, :ns &quot;day03.core&quot;} {:command &quot;(def l2 (parse-line wire2-str))&quot;, :offset 31, :ns &quot;day03.core&quot;} {:command &quot;(def hmap (merge-with into (list-to-path (input-to-pos l1)) (list-to-path (input-to-pos l2))))&quot;, :offset 94, :ns &quot;day03.core&quot;} {:command &quot;(def start [ 0 0])\n(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr] (println val path-to-curr)))\n&quot;, :offset 134, :ns &quot;day03.core&quot;} {:command &quot;(def start [ 0 0])\n(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr] \n    (println (for [x (hmap val)]\n               (vec (list x\n                          (conj path-to-curr val)))))))\n&quot;, :offset 223, :ns &quot;day03.core&quot;} {:command &quot;(def start [ 0 0])\n(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr]\n    (println (map (fn [x] (vec (list x\n                                     (conj path-to-curr val))))\n                  (hmap val)))))\n&quot;, :offset 241, :ns &quot;day03.core&quot;} {:command &quot;(def start [ 0 0])\n(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr]\n    (println \&quot;path to curr\&quot; path-to-curr)\n    (println (map (fn [x] (vec (list xk\n                                     (conj path-to-curr val))))\n                  (hmap val)))))\n&quot;, :offset 284, :ns &quot;day03.core&quot;} {:command &quot;(def start [ 0 0])\n(loop [[curr &amp; rest] (list [start (hmap start) '()])]\n  (let [[val path-to-curr] curr]\n    (println \&quot;path to curr\&quot; path-to-curr)\n    (println (map (fn [x] (vec (list x\n                                     (conj path-to-curr val))))\n                  (hmap val)))))\n&quot;, :offset 283, :ns &quot;day03.core&quot;} {:command &quot;(def start [ 0 0])\n(loop [[curr &amp; rest] (list [start '()])]\n  (let [[val path-to-curr] curr]\n    (println \&quot;path to curr\&quot; path-to-curr)\n    (println (map (fn [x] (vec (list x\n                                     (conj path-to-curr val))))\n                  (hmap val)))))\n&quot;, :offset 270, :ns &quot;day03.core&quot;} {:command &quot;(conj '() (1 2))&quot;, :offset 16, :ns &quot;day03.core&quot;} {:command &quot;(cons '() (1 2))&quot;, :offset 16, :ns &quot;day03.core&quot;} {:command &quot;(concat '() (1 2))&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(println \&quot;a\&quot;)&quot;, :offset 13, :ns &quot;day03.core&quot;} {:command &quot;(concat [1] [1 2])&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(concat '() '(1 2))&quot;, :offset 19, :ns &quot;day03.core&quot;} {:command &quot;(def wire1-str \&quot;R8,U5,L5,D3\&quot;)\n&quot;, :offset 29, :ns &quot;day03.core&quot;} {:command &quot;(def wire1-str \&quot;R8,U5,L5,D3\&quot;)\n(def wire2-str \&quot;U7,R6,D4,L4\&quot;)\n(def l1 (parse-line wire1-str))\n(def l2 (parse-line wire2-str))\n(def hmap (merge-with into (list-to-path (input-to-pos l1)) (list-to-path (input-to-pos l2))))\n&quot;, :offset 218, :ns &quot;day03.core&quot;} {:command &quot;hmap&quot;, :offset 4, :ns &quot;day03.core&quot;} {:command &quot;()&quot;, :offset 1} {:command &quot;(bfs hmap [0, 0] [2 3])&quot;, :offset 23, :ns &quot;day03.core&quot;} {:command &quot;(pop (1 2 3))&quot;, :offset 13, :ns &quot;day03.core&quot;} {:command &quot;(pop '(1 2 3))&quot;, :offset 14, :ns &quot;day03.core&quot;} {:command &quot;(closest-intersection filename)&quot;, :offset 31, :ns &quot;day03.core&quot;} {:command &quot;(count (part2 filename))&quot;, :offset 24, :ns &quot;day03.core&quot;} {:command &quot;(defn common-elements-from-file [filename]\n  (as-&gt; filename input\n        (slurp input)\n        (parse input)\n        (map input-to-pos input)\n        (common-elements (first input) (second input))))&quot;, :offset 199, :ns &quot;day03.core&quot;} {:command &quot;(def elems (common-elements-from-file filename))&quot;, :offset 48, :ns &quot;day03.core&quot;} {:command &quot;elems&quot;, :offset 5, :ns &quot;day03.core&quot;} {:command &quot;(reverse '(1 2 3))&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(vals {:a 1})&quot;, :offset 13, :ns &quot;day03.core&quot;} {:command &quot;(vals {:a '(1) :b '(2)})&quot;, :offset 24, :ns &quot;day03.core&quot;} {:command &quot;(vals {:a '(1 2) :b '(2 3)})&quot;, :offset 28, :ns &quot;day03.core&quot;} {:command &quot;(reduce + (vals {:a '(1 2) :b '(2 3)}))&quot;, :offset 39, :ns &quot;day03.core&quot;} {:command &quot;(map (fn [ds] (reduce + ds)) (vals {:a '(1 2) :b '(2 3)}))&quot;, :offset 58, :ns &quot;day03.core&quot;} {:command &quot;(filter-key)&quot;, :offset 12, :ns &quot;day03.core&quot;} {:command &quot;(def distances (part2 filename))&quot;, :offset 32, :ns &quot;day03.core&quot;} {:command &quot;distances&quot;, :offset 9, :ns &quot;day03.core&quot;} {:command &quot;(filter #(&gt; (count %) 1) (vals distances))&quot;, :offset 42, :ns &quot;day03.core&quot;} {:command &quot;(map #(reduce + %) (filter #(&gt; (count %) 1) (vals distances)))&quot;, :offset 62, :ns &quot;day03.core&quot;} {:command &quot;(min (map #(reduce + %) (filter #(&gt; (count %) 1) (vals distances))))&quot;, :offset 68, :ns &quot;day03.core&quot;} {:command &quot;(min '(1 2 3 4 5))&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(min (list 1 2 3))&quot;, :offset 18, :ns &quot;day03.core&quot;} {:command &quot;(min [ 1 2 3])&quot;, :offset 14, :ns &quot;day03.core&quot;} {:command &quot;(part2 filename)&quot;, :offset 16, :ns &quot;day03.core&quot;}], :remote []}}</component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false" nameIsGenerated="true">
+      <module name="day03" />
+      <setting name="replType" value="NREPL" />
+      <setting name="execution" value="LEININGEN" />
+      <setting name="jvmArgs" value="" />
+      <setting name="parameters" value="" />
+      <setting name="workingDir" value="$PROJECT_DIR$" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <setting name="replType" value="NREPL" />
+      <setting name="execution" value="LEININGEN" />
+      <module name="" />
+      <setting name="jvmArgs" value="" />
+      <setting name="parameters" value="" />
+      <setting name="workingDir" value="" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Remote" activateToolWindowBeforeRun="false">
+      <setting name="host" value="" />
+      <setting name="port" value="0" />
+      <setting name="replType" value="0" />
+      <module name="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bcea7112-3b9a-42d7-8616-6303b1779531" name="Default Changelist" comment="" />
+      <created>1575433538759</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575433538759</updated>
+      <workItem from="1575433540042" duration="10405000" />
+      <workItem from="1575697812368" duration="164000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>

@@ -1,3 +1,3 @@
-# Introduction to aoc-day-16
+# Introduction to day03
 
 TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)

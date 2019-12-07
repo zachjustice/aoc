@@ -1,4 +1,4 @@
-# aoc-day-16
+# day04
 
 FIXME: description
 
@@ -10,7 +10,7 @@ Download from http://example.com/FIXME.
 
 FIXME: explanation
 
-    $ java -jar aoc-day-16-0.1.0-standalone.jar [args]
+    $ java -jar day04-0.1.0-standalone.jar [args]
 
 ## Options
 

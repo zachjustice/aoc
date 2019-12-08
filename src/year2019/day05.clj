@@ -4,7 +4,7 @@
     [clojure.string :as string]))
 
 (def data
-  (as-> (io/resource "year2019/day05/part01.txt") input
+  (as-> (io/resource "year2019/day05/part1.txt") input
         (slurp input)
         (clojure.string/split input #",")
         (map read-string input)
@@ -114,9 +114,8 @@
 
 (defn part2
   [system-id arr]
-  (def state {:curr 0 :arr arr})
   (loop [{instr-pntr :curr
-          arr :arr} state]
+          arr :arr} (hash-map :curr 0 :arr arr)]
     (let [elem (get arr instr-pntr)
           opcode (get-opcode elem)
           param-modes (get-param-modes elem)]

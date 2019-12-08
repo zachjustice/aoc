@@ -53,7 +53,7 @@
   (for [i (range (/ (count image) row-length))
         :let [start (* i row-length)
               end (+ start row-length)]]
-    (apply println (apply str (subvec image start end)))))
+    (println (apply str (map #(if (zero? %) " " "█" ) (subvec image start end))))))
 
 (defn part2 [data w l]
   (let [layers (get-layers data w l)

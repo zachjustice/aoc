@@ -1,7 +1,13 @@
 (ns year2019.day07
   (:require
     [clojure.java.io :as io]
-    [clojure.string :as string]))
+    [clojure.string :as string])
+  (:import (clojure.lang PersistentQueue)))
+
+(defmethod print-method PersistentQueue [q, w] ; Overload the printer for queues so they look like fish
+  (print-method '<- w)
+  (print-method (seq q) w)
+  (print-method '-< w))
 
 (def data
   (as-> (io/resource "year2019/day07/part1.txt") input
@@ -115,8 +121,7 @@
     5     (handle-jump is-non-zero instr-pntr program param-modes)
     6     (handle-jump is-zero     instr-pntr program param-modes)
     7     (handle-comp <           instr-pntr program param-modes)
-    8     (handle-comp =           instr-pntr program param-modes)
-    ))
+    8     (handle-comp =           instr-pntr program param-modes)))
 
 (defn generate-phases [start end]
   (apply concat (apply concat (apply concat (apply concat (for [i (range start end)]
@@ -133,9 +138,10 @@
 
 (defn safe-pop [l]
   (if (empty? l)
-    (if (vector? l)
-      []
-      '())
+    (cond
+      (vector? l) []
+      (list? l) '()
+      (instance? PersistentQueue l) PersistentQueue/EMPTY)
     (pop l)))
 
 (defn run-program
@@ -171,24 +177,23 @@
 (defn run-program-2
   [starting-instr-pntr original-inputs program]
   ;; returns {:instr-pntr instr-pntr :program program :output output :stop? true}
-  (loop [state (hash-map :instr-pntr starting-instr-pntr :program program :inputs original-inputs :output nil)]
+  (loop [state (hash-map :instr-pntr starting-instr-pntr :program program :inputs original-inputs)]
     (let [{instr-pntr :instr-pntr
            program :program
-           inputs :inputs
-           output :output} state                            ;; output no longer necessary since we return on 04, could make list and return on 3 w/ nil input instead
+           inputs :inputs} state
           instr-val (get program instr-pntr)
           opcode (get-opcode instr-val)
           param-modes (get-param-modes instr-val)
           input (first inputs)]                      ;; default input to 0 instead of nil incase we run into future 3's after the first initial 2
       (cond
         ;; terminate
-        (= opcode 99) (hash-map :instr-pntr instr-pntr :program program :output output :stop? true)
-        ;; return  output
+        (= opcode 99) (hash-map :instr-pntr instr-pntr :program program :stop? true)
+        ;; return program state including :output
         (= opcode 4) (assoc (handle-op instr-pntr program param-modes) :stop? false) ;; (terminate-program instr-pntr program)
         ;; waiting for input
-        (and (= opcode 3) (empty? inputs)) {:instr-pntr instr-pntr :program program :output output}
+        (and (= opcode 3) (empty? inputs)) {:instr-pntr instr-pntr :program program}
         ;; execute as normal
-        (as-> (handle-instruction opcode instr-pntr program param-modes input inputs) x
+        :else (as-> (handle-instruction opcode instr-pntr program param-modes input inputs) x
                     (merge state x)
                     (recur x))))))
 
@@ -198,18 +203,20 @@
   (let [{program :program
          prev-instr-pntr :instr-pntr
          stop? :stop?
+         last-output :last-output
          outputs :outputs} program-prev-state
         program-next-state (run-program-2 prev-instr-pntr curr-inputs program)
-        output (:output program-next-state)]
+        output (:output program-next-state)
+        new-outputs (if (nil? output) outputs (conj outputs output))]
     (if stop?
       (assoc program-prev-state :outputs nil)
-      (assoc program-next-state :outputs (cons output outputs)))))
+      (assoc program-next-state :outputs new-outputs :last-output (or output last-output)))))
 
 (defn construct-input [phases program-states amp-index]
   (let [prev-amp-index (mod (dec amp-index) (count program-states))
         prev-amp (get program-states prev-amp-index)
         prev-amp-outputs (:outputs prev-amp)
-        prev-amp-output (first prev-amp-outputs)]
+        prev-amp-output (peek prev-amp-outputs)]
     (if (empty? phases)
       (list prev-amp-output)
       (list (first phases) prev-amp-output))))
@@ -221,7 +228,7 @@
         prev-amp-index (mod (dec amp-index) num-states)
         prev-amp (get program-states prev-amp-index)
         prev-amp-outputs (:outputs prev-amp)]
-    (assoc (assoc-in program-states [prev-amp-index :outputs] (pop prev-amp-outputs))
+    (assoc (assoc-in program-states [prev-amp-index :outputs] (safe-pop prev-amp-outputs))
       amp-index
       program-next-state)))
 
@@ -236,18 +243,23 @@
          phases init-phases
          amp-index 0]
     (let [program-prev-state (get program-states amp-index)
-          program-next-state (handle-run-program-2 program-prev-state (construct-input phases program-states amp-index))]
+          inputs (construct-input phases program-states amp-index)
+          program-next-state (handle-run-program-2 program-prev-state inputs)
+          last-amp-index (dec (count program-states))
+          next-amp-index (mod (inc amp-index) (count init-phases))]
       (if (have-all-programs-stopped? program-states)
-        (:outputs (get program-states (dec (count init-phases))))
+        (:last-output (get program-states last-amp-index))       ;; last output of Amp E
         (recur (update-program-states program-states amp-index program-next-state)
                (safe-pop phases)
-               (mod (inc amp-index) (count init-phases)))))))
+               next-amp-index)))))
 
 (defn part1 [program]
   (apply max (map (partial run-amps program) (generate-phases 0 5))))
 
+(defn part2 [program]
+  (apply max (map (partial run-feedback-loop program) (generate-phases 5 10))))
+
 (defn -main
   [& args]
   ;; (part1 data)
-  (run-feedback-loop [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5] [9,8,7,6,5])
   )

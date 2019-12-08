@@ -14,8 +14,7 @@
         (slurp input)
         (clojure.string/split input #",")
         (map read-string input)
-        (vec input)
-        ))
+        (vec input)))
 
 (defn parse [d]
   (as-> d input
@@ -261,5 +260,5 @@
 
 (defn -main
   [& args]
-  ;; (part1 data)
-  )
+  (part1 data)
+  (part2 data))

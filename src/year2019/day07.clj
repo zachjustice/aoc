@@ -1,7 +1,8 @@
 (ns year2019.day07
   (:require
     [clojure.java.io :as io]
-    [clojure.string :as string])
+    [clojure.string :as string]
+    [clojure.math.combinatorics :as combo])
   (:import (clojure.lang PersistentQueue)))
 
 (defmethod print-method PersistentQueue [q, w] ; Overload the printer for queues so they look like fish
@@ -123,16 +124,7 @@
     8     (handle-comp =           instr-pntr program param-modes)))
 
 (defn generate-phases [start end]
-  (apply concat (apply concat (apply concat (apply concat (for [i (range start end)]
-                                                            (for [j (range start end)
-                                                                  :when (not (= i j))]
-                                                              (for [k (range start end)
-                                                                    :when (not (or (= k i) (= k j)))]
-                                                                (for [l (range start end)
-                                                                      :when (not (or (= l i) (= l j) (= l k)))]
-                                                                  (for [m (range start end)
-                                                                        :when (not (or (= m i) (= m j) (= m k) (= m l)))]
-                                                                    (list i j k l m)))))))))))
+  (map #(apply list %) (combo/permutations (range start end))))
 
 
 (defn safe-pop [l]
@@ -260,5 +252,5 @@
 
 (defn -main
   [& args]
-  (part1 data)
-  (part2 data))
+  (println (part1 data))
+  (println (part2 data)))
